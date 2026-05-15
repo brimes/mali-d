@@ -1,0 +1,32 @@
+<%= form_with model: [:admin, company], class: "space-y-4 max-w-lg" do |f| %>
+  <% if company.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-800 p-3 rounded">
+      <ul class="list-disc list-inside">
+        <% company.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name, "Nome", class: "block text-sm font-medium" %>
+    <%= f.text_field :name, class: "border rounded p-2 w-full" %>
+  </div>
+
+  <div>
+    <%= f.label :subdomain, "Subdomínio", class: "block text-sm font-medium" %>
+    <%= f.text_field :subdomain, class: "border rounded p-2 w-full", disabled: company.persisted? %>
+    <p class="text-xs text-gray-500">Letras minúsculas, números e hífens. Vira o schema do tenant.</p>
+  </div>
+
+  <div>
+    <%= f.label :kind, "Tipo", class: "block text-sm font-medium" %>
+    <%= f.select :kind, Company.kinds.keys.map { |k| [k.humanize, k] }, {}, class: "border rounded p-2 w-full" %>
+  </div>
+
+  <div>
+    <%= f.label :status, "Status", class: "block text-sm font-medium" %>
+    <%= f.select :status, Company.statuses.keys.map { |k| [k.humanize, k] }, {}, class: "border rounded p-2 w-full" %>
+  </div>
+
+  <%= f.submit class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+<% end %>

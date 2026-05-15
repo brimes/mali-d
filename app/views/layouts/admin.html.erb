@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin · Mali-D</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  </head>
+  <body class="min-h-screen bg-gray-50 text-gray-900">
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center">
+      <strong>Mali-D Admin</strong>
+      <div class="text-sm">
+        <%= current_user.email %>
+        <%= button_to "Sair", destroy_user_session_path, method: :delete, class: "ml-2 text-red-600" %>
+      </div>
+    </header>
+    <% if notice %><p class="px-6 py-2 bg-green-100 text-green-800"><%= notice %></p><% end %>
+    <% if alert %><p class="px-6 py-2 bg-red-100 text-red-800"><%= alert %></p><% end %>
+    <main class="p-6 flex gap-6">
+      <nav class="w-48 space-y-2 text-sm">
+        <%= link_to "Dashboard", admin_root_path, class: "block hover:underline" %>
+        <%= link_to "Empresas", admin_companies_path, class: "block hover:underline" %>
+      </nav>
+      <section class="flex-1"><%= yield %></section>
+    </main>
+  </body>
+</html>

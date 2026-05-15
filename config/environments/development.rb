@@ -3,6 +3,11 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Allow lvh.me + subdomains for multi-tenant local dev.
+  config.hosts << ".lvh.me"
+  config.hosts << "lvh.me"
+  config.session_store :cookie_store, key: "_mali_d_session", domain: :all, tld_length: 2
+
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
 

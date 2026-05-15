@@ -32,8 +32,8 @@ docker compose up
 
 Acessar:
 
-- `http://app.lvh.me:3000` — área admin master / login global
-- `http://<subdominio>.lvh.me:3000` — área da empresa após cadastro
+- `http://app.lvh.me:3010` — área admin master / login global
+- `http://<subdominio>.lvh.me:3010` — área da empresa após cadastro
 
 `lvh.me` resolve para `127.0.0.1` automaticamente, então qualquer subdomínio funciona sem mexer no `/etc/hosts`.
 

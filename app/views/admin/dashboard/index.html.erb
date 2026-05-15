@@ -1,0 +1,19 @@
+<h1 class="text-2xl font-bold mb-4">Painel Admin</h1>
+
+<div class="grid grid-cols-2 gap-4 mb-6">
+  <div class="bg-white p-4 rounded shadow">
+    <div class="text-sm text-gray-500">Empresas</div>
+    <div class="text-3xl font-semibold"><%= @companies_count %></div>
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <div class="text-sm text-gray-500">Usuários</div>
+    <div class="text-3xl font-semibold"><%= @users_count %></div>
+  </div>
+</div>
+
+<h2 class="text-lg font-semibold mb-2">Empresas recentes</h2>
+<ul class="space-y-1">
+  <% @recent_companies.each do |c| %>
+    <li><%= link_to "#{c.name} (#{c.subdomain})", admin_company_path(c) %></li>
+  <% end %>
+</ul>

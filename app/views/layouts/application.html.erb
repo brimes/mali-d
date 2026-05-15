@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "App" %></title>
+    <title><%= content_for(:title) || "Mali-D" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="App">
@@ -22,7 +22,18 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="min-h-screen bg-gray-50 text-gray-900">
+    <% if user_signed_in? %>
+      <header class="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center">
+        <strong>Mali-D</strong>
+        <div class="text-sm">
+          <%= current_user.email %> (<%= current_user.role %>)
+          <%= button_to "Sair", destroy_user_session_path, method: :delete, class: "ml-2 text-red-600" %>
+        </div>
+      </header>
+    <% end %>
+    <% if notice %><p class="px-6 py-2 bg-green-100 text-green-800"><%= notice %></p><% end %>
+    <% if alert %><p class="px-6 py-2 bg-red-100 text-red-800"><%= alert %></p><% end %>
+    <main class="p-6"><%= yield %></main>
   </body>
 </html>
