@@ -1,0 +1,28 @@
+<%= form_with model: appointment, class: "space-y-4 max-w-lg" do |f| %>
+  <% if appointment.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-800 p-3 rounded">
+      <ul class="list-disc list-inside"><% appointment.errors.full_messages.each do |m| %><li><%= m %></li><% end %></ul>
+    </div>
+  <% end %>
+
+  <div><%= f.label :doctor_id, "Médico", class: "block text-sm font-medium" %>
+    <%= f.collection_select :doctor_id, Doctor.active.order(:name), :id, :name,
+          { prompt: "Selecione" }, class: "border rounded p-2 w-full" %></div>
+  <div><%= f.label :patient_id, "Paciente", class: "block text-sm font-medium" %>
+    <%= f.collection_select :patient_id, Patient.order(:name), :id, :name,
+          { prompt: "Selecione" }, class: "border rounded p-2 w-full" %></div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div><%= f.label :starts_at, "Início", class: "block text-sm font-medium" %>
+      <%= f.datetime_local_field :starts_at, value: appointment.starts_at&.strftime("%Y-%m-%dT%H:%M"), class: "border rounded p-2 w-full" %></div>
+    <div><%= f.label :ends_at, "Fim", class: "block text-sm font-medium" %>
+      <%= f.datetime_local_field :ends_at, value: appointment.ends_at&.strftime("%Y-%m-%dT%H:%M"), class: "border rounded p-2 w-full" %></div>
+  </div>
+
+  <div><%= f.label :status, "Status", class: "block text-sm font-medium" %>
+    <%= f.select :status, Appointment.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "border rounded p-2 w-full" %></div>
+  <div><%= f.label :notes, "Observações", class: "block text-sm font-medium" %>
+    <%= f.text_area :notes, rows: 3, class: "border rounded p-2 w-full" %></div>
+
+  <%= f.submit class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+<% end %>

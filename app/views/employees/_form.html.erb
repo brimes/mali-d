@@ -1,0 +1,17 @@
+<%= form_with model: employee, class: "space-y-4 max-w-lg" do |f| %>
+  <% if employee.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-800 p-3 rounded">
+      <ul class="list-disc list-inside"><% employee.errors.full_messages.each do |m| %><li><%= m %></li><% end %></ul>
+    </div>
+  <% end %>
+  <div><%= f.label :name, "Nome", class: "block text-sm font-medium" %>
+    <%= f.text_field :name, class: "border rounded p-2 w-full" %></div>
+  <div><%= f.label :job_title, "Cargo", class: "block text-sm font-medium" %>
+    <%= f.text_field :job_title, class: "border rounded p-2 w-full" %></div>
+  <% unless employee.persisted? %>
+    <div><label class="block text-sm font-medium">E-mail (acesso)</label>
+      <%= text_field_tag "employee[user_email]", nil, class: "border rounded p-2 w-full" %></div>
+  <% end %>
+  <label class="flex items-center gap-2 text-sm"><%= f.check_box :active %> Ativo</label>
+  <%= f.submit class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+<% end %>

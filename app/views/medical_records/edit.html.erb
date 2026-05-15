@@ -1,0 +1,27 @@
+<h1 class="text-2xl font-bold mb-1"><%= @record.persisted? ? "Editar prontuário" : "Novo prontuário" %></h1>
+<p class="text-gray-500 mb-4">
+  Paciente <strong><%= @appointment.patient.name %></strong> ·
+  Médico Dr(a). <%= @appointment.doctor.name %> ·
+  Consulta de <%= @appointment.starts_at.strftime("%d/%m/%Y %H:%M") %>
+</p>
+
+<%= form_with model: @record,
+      url: @record.persisted? ? appointment_medical_record_path(@appointment) : appointment_medical_record_path(@appointment),
+      method: @record.persisted? ? :patch : :post,
+      class: "space-y-4" do |f| %>
+  <% if @record.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-800 p-3 rounded">
+      <ul class="list-disc list-inside"><% @record.errors.full_messages.each do |m| %><li><%= m %></li><% end %></ul>
+    </div>
+  <% end %>
+
+  <div>
+    <label class="block text-sm font-medium mb-1">Prontuário</label>
+    <%= f.rich_text_area :body, class: "bg-white" %>
+  </div>
+
+  <div class="flex gap-2">
+    <%= f.submit "Salvar", class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+    <%= link_to "Voltar", appointment_path(@appointment), class: "bg-gray-200 px-4 py-2 rounded" %>
+  </div>
+<% end %>

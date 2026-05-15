@@ -1,0 +1,24 @@
+<%= form_with model: patient, class: "space-y-4 max-w-lg" do |f| %>
+  <% if patient.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-800 p-3 rounded">
+      <ul class="list-disc list-inside"><% patient.errors.full_messages.each do |m| %><li><%= m %></li><% end %></ul>
+    </div>
+  <% end %>
+  <div><%= f.label :name, "Nome", class: "block text-sm font-medium" %>
+    <%= f.text_field :name, class: "border rounded p-2 w-full" %></div>
+  <div class="grid grid-cols-2 gap-4">
+    <div><%= f.label :cpf, "CPF", class: "block text-sm font-medium" %>
+      <%= f.text_field :cpf, class: "border rounded p-2 w-full" %></div>
+    <div><%= f.label :birthdate, "Nascimento", class: "block text-sm font-medium" %>
+      <%= f.date_field :birthdate, class: "border rounded p-2 w-full" %></div>
+  </div>
+  <div class="grid grid-cols-2 gap-4">
+    <div><%= f.label :phone, "Telefone", class: "block text-sm font-medium" %>
+      <%= f.telephone_field :phone, class: "border rounded p-2 w-full" %></div>
+    <div><%= f.label :email, "E-mail", class: "block text-sm font-medium" %>
+      <%= f.email_field :email, class: "border rounded p-2 w-full" %></div>
+  </div>
+  <div><%= f.label :notes, "Observações", class: "block text-sm font-medium" %>
+    <%= f.text_area :notes, rows: 4, class: "border rounded p-2 w-full" %></div>
+  <%= f.submit class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+<% end %>
