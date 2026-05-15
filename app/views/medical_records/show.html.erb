@@ -1,0 +1,42 @@
+<div class="flex justify-between items-start mb-4">
+  <div>
+    <h1 class="text-2xl font-bold">Prontuário</h1>
+    <p class="text-gray-500">
+      Paciente <strong><%= @record.patient.name %></strong> ·
+      Dr(a). <%= @record.doctor.name %> ·
+      <%= @record.created_at.strftime("%d/%m/%Y %H:%M") %>
+    </p>
+    <% if @record.signed? %>
+      <span class="inline-block mt-1 text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
+        Assinado em <%= @record.signed_at.strftime("%d/%m/%Y %H:%M") %>
+      </span>
+    <% else %>
+      <span class="inline-block mt-1 text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Rascunho</span>
+    <% end %>
+  </div>
+  <div class="space-x-2">
+    <% unless @record.signed? %>
+      <%= link_to "Editar", edit_appointment_medical_record_path(@appointment), class: "bg-gray-200 px-3 py-2 rounded" %>
+      <%= button_to "Assinar", sign_appointment_medical_record_path(@appointment),
+            method: :post, data: { turbo_confirm: "Assinar e travar o prontuário?" },
+            class: "bg-emerald-600 text-white px-3 py-2 rounded" %>
+    <% end %>
+    <%= link_to "Voltar à consulta", appointment_path(@appointment), class: "bg-gray-200 px-3 py-2 rounded" %>
+  </div>
+</div>
+
+<article class="bg-white p-6 rounded shadow prose max-w-none">
+  <%= @record.body %>
+</article>
+
+<% if @record.versions.any? %>
+  <h2 class="text-lg font-semibold mt-6 mb-2">Versões anteriores</h2>
+  <ul class="bg-white rounded shadow divide-y">
+    <% @record.versions.order(created_at: :desc).each do |v| %>
+      <li class="p-3 text-sm">
+        <strong><%= v.created_at_snapshot&.strftime("%d/%m/%Y %H:%M") || v.created_at.strftime("%d/%m/%Y %H:%M") %></strong>
+        — por <%= v.author&.email || "usuário removido" %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

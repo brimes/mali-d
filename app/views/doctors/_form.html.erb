@@ -1,0 +1,26 @@
+<%= form_with model: doctor, class: "space-y-4 max-w-lg" do |f| %>
+  <% if doctor.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-800 p-3 rounded">
+      <ul class="list-disc list-inside"><% doctor.errors.full_messages.each do |m| %><li><%= m %></li><% end %></ul>
+    </div>
+  <% end %>
+
+  <div><%= f.label :name, "Nome", class: "block text-sm font-medium" %>
+    <%= f.text_field :name, class: "border rounded p-2 w-full" %></div>
+  <div><%= f.label :crm, "CRM", class: "block text-sm font-medium" %>
+    <%= f.text_field :crm, class: "border rounded p-2 w-full" %></div>
+  <div><%= f.label :specialty, "Especialidade", class: "block text-sm font-medium" %>
+    <%= f.text_field :specialty, class: "border rounded p-2 w-full" %></div>
+
+  <% unless doctor.persisted? %>
+    <div><label class="block text-sm font-medium">E-mail (para criar acesso)</label>
+      <%= text_field_tag "doctor[user_email]", nil, class: "border rounded p-2 w-full" %>
+      <p class="text-xs text-gray-500">Será gerada uma senha temporária visível no log do servidor.</p></div>
+  <% end %>
+
+  <label class="flex items-center gap-2 text-sm">
+    <%= f.check_box :active %> Ativo
+  </label>
+
+  <%= f.submit class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+<% end %>

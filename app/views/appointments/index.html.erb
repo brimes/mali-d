@@ -1,0 +1,11 @@
+<div class="flex justify-between items-center mb-4">
+  <h1 class="text-2xl font-bold">Agenda</h1>
+  <%= link_to "Nova consulta", new_appointment_path, class: "bg-blue-600 text-white px-3 py-2 rounded" %>
+</div>
+
+<div class="bg-white rounded shadow p-4">
+  <div data-controller="calendar"
+       data-calendar-events-url-value="<%= appointments_path(format: :json) %>"
+       data-calendar-new-url-value="<%= new_appointment_path %>"
+       class="min-h-[600px]"></div>
+</div>

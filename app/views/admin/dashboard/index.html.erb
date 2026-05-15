@@ -1,19 +1,59 @@
 <h1 class="text-2xl font-bold mb-4">Painel Admin</h1>
 
-<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="grid grid-cols-4 gap-4 mb-6">
   <div class="bg-white p-4 rounded shadow">
     <div class="text-sm text-gray-500">Empresas</div>
-    <div class="text-3xl font-semibold"><%= @companies_count %></div>
+    <div class="text-3xl font-semibold"><%= @metrics.companies %></div>
   </div>
   <div class="bg-white p-4 rounded shadow">
     <div class="text-sm text-gray-500">Usuários</div>
-    <div class="text-3xl font-semibold"><%= @users_count %></div>
+    <div class="text-3xl font-semibold"><%= @metrics.users %></div>
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <div class="text-sm text-gray-500">Pacientes (todas)</div>
+    <div class="text-3xl font-semibold"><%= @metrics.total_patients %></div>
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <div class="text-sm text-gray-500">Médicos (todas)</div>
+    <div class="text-3xl font-semibold"><%= @metrics.total_doctors %></div>
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <div class="text-sm text-gray-500">Consultas no mês</div>
+    <div class="text-3xl font-semibold"><%= @metrics.appointments_this_month %></div>
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <div class="text-sm text-gray-500">Consultas totais</div>
+    <div class="text-3xl font-semibold"><%= @metrics.total_appointments %></div>
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <div class="text-sm text-gray-500">Prontuários assinados no mês</div>
+    <div class="text-3xl font-semibold"><%= @metrics.signed_records_this_month %></div>
   </div>
 </div>
 
-<h2 class="text-lg font-semibold mb-2">Empresas recentes</h2>
-<ul class="space-y-1">
-  <% @recent_companies.each do |c| %>
-    <li><%= link_to "#{c.name} (#{c.subdomain})", admin_company_path(c) %></li>
-  <% end %>
-</ul>
+<h2 class="text-lg font-semibold mb-2">Por empresa (mês atual)</h2>
+<table class="w-full bg-white rounded shadow text-sm">
+  <thead class="bg-gray-100"><tr>
+    <th class="text-left p-2">Empresa</th>
+    <th class="text-left p-2">Tipo</th>
+    <th class="text-right p-2">Médicos</th>
+    <th class="text-right p-2">Pacientes</th>
+    <th class="text-right p-2">Consultas (mês)</th>
+    <th class="text-right p-2">Prontuários assinados (mês)</th>
+  </tr></thead>
+  <tbody>
+    <% @metrics.per_company.each do |row| %>
+      <tr class="border-t">
+        <td class="p-2"><%= link_to row.company.name, admin_company_path(row.company) %></td>
+        <td class="p-2"><%= row.company.kind.humanize %></td>
+        <td class="p-2 text-right"><%= row.doctors %></td>
+        <td class="p-2 text-right"><%= row.patients %></td>
+        <td class="p-2 text-right"><%= row.appointments_this_month %></td>
+        <td class="p-2 text-right"><%= row.signed_records_this_month %></td>
+      </tr>
+    <% end %>
+    <% if @metrics.per_company.empty? %>
+      <tr><td colspan="6" class="p-3 text-gray-500 text-center">Nenhuma empresa cadastrada ainda.</td></tr>
+    <% end %>
+  </tbody>
+</table>

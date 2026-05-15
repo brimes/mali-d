@@ -1,0 +1,21 @@
+<h1 class="text-2xl font-bold mb-1">Histórico — <%= @patient.name %></h1>
+<p class="text-gray-500 mb-4"><%= @records.size %> prontuário(s)</p>
+
+<% if @records.any? %>
+  <div class="space-y-4">
+    <% @records.each do |r| %>
+      <article class="bg-white rounded shadow p-4">
+        <header class="flex justify-between items-center mb-2">
+          <div>
+            <strong><%= r.created_at.strftime("%d/%m/%Y %H:%M") %></strong> · Dr(a). <%= r.doctor.name %>
+            <% if r.signed? %><span class="ml-2 text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">Assinado</span><% end %>
+          </div>
+          <%= link_to "Abrir consulta", appointment_path(r.appointment), class: "text-blue-600 text-sm" %>
+        </header>
+        <div class="prose max-w-none text-sm"><%= r.body %></div>
+      </article>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-gray-500">Sem prontuários ainda.</p>
+<% end %>
