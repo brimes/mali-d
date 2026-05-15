@@ -1,0 +1,27 @@
+FROM ruby:3.3-slim
+
+ENV LANG=C.UTF-8 \
+    BUNDLE_PATH=/usr/local/bundle \
+    RAILS_ENV=development \
+    NODE_ENV=development
+
+RUN apt-get update -qq && apt-get install -y --no-install-recommends \
+      build-essential \
+      git \
+      curl \
+      libpq-dev \
+      libyaml-dev \
+      pkg-config \
+      postgresql-client \
+      tzdata \
+      libjemalloc2 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY Gemfile Gemfile.lock* ./
+RUN gem install bundler && bundle install
+
+EXPOSE 3000
+
+CMD ["bin/rails", "server", "-b", "0.0.0.0"]
